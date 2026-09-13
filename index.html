@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar Menu & Informasi Gizi</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f7f9fc; margin: 0; padding: 20px; color: #333; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { text-align: center; color: #2c3e50; }
+
+    /* Kontrol Pencarian & Filter */
+    .controls { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+    .search-box { width: 100%; padding: 12px 16px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; outline: none; }
+    .search-box:focus { border-color: #27ae60; }
+    .filter-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .filter-btn { padding: 8px 16px; border: none; background: #e0e6ed; color: #333; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+    .filter-btn.active, .filter-btn:hover { background: #27ae60; color: white; }
+
+    /* Layout Grid Menu */
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); }
+    .card h3 { margin-top: 0; color: #2c3e50; }
+    .badge { display: inline-block; background: #e8f5e9; color: #2e7d32; font-size: 12px; padding: 4px 8px; border-radius: 12px; margin-bottom: 10px; font-weight: bold; }
+    .desc { font-size: 14px; color: #666; min-height: 40px; margin-bottom: 15px; }
+
+    /* Tabel Gizi */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    td { padding: 6px 0; border-bottom: 1px dashed #eee; }
+    td:last-child { text-align: right; font-weight: 500; }
+    .kalori-row { font-weight: bold; color: #d35400; border-top: 1px solid #ddd; }
+
+    .no-result { display: none; text-align: center; color: #7f8c8d; margin-top: 30px; grid-column: 1 / -1; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Menu & Informasi Gizi</h1>
+
+    <!-- Input Search & Filter Kategori -->
+    <div class="controls">
+      <input type="text" id="searchInput" class="search-box" placeholder="Cari nama menu atau bahan...">
+      <div class="filter-buttons">
+        <button class="filter-btn active" onclick="filterCategory('all', this)">Semua</button>
+        <button class="filter-btn" onclick="filterCategory('makanan', this)">Makanan Utama</button>
+        <button class="filter-btn" onclick="filterCategory('minuman', this)">Minuman</button>
+        <button class="filter-btn" onclick="filterCategory('camilan', this)">Camilan</button>
+      </div>
+    </div>
+
+    <!-- Grid Menu Makanan -->
+    <div class="menu-grid" id="menuGrid">
+      
+      <div class="card" data-category="makanan" data-name="ayam bakar madu nasi dada">
+        <span class="badge">Makanan Utama</span>
+        <h3>Ayam Bakar Madu</h3>
+        <p class="desc">Dada ayam panggang bumbu manis gurih dengan olesan madu.</p>
+        <table>
+          <tr class="kalori-row"><td>Kalori</td><td>350 kcal</td></tr>
+          <tr><td>Protein</td><td>28 g</td></tr>
+          <tr><td>Karbohidrat</td><td>15 g</td></tr>
+          <tr><td>Lemak</td><td>12 g</td></tr>
+        </table>
+      </div>
+
+      <div class="card" data-category="makanan" data-name="salad alpukat telur sayur">
+        <span class="badge">Makanan Utama</span>
+        <h3>Salad Alpukat Telur</h3>
+        <p class="desc">Sayuran segar dengan potongan alpukat mentega dan telur rebus.</p>
+        <table>
+          <tr class="kalori-row"><td>Kalori</td><td>240 kcal</td></tr>
+          <tr><td>Protein</td><td>10 g</td></tr>
+          <tr><td>Karbohidrat</td><td>8 g</td></tr>
+          <tr><td>Lemak</td><td>18 g</td></tr>
+        </table>
+      </div>
+
+      <div class="card" data-category="minuman" data-name="es teh matcha oat milk hijau">
+        <span class="badge">Minuman</span>
+        <h3>Matcha Oat Milk</h3>
+        <p class="desc">Teh matcha asli dicampur dengan susu gandum rendah gula.</p>
+        <table>
+          <tr class="kalori-row"><td>Kalori</td><td>120 kcal</td></tr>
+          <tr><td>Protein</td><td>3 g</td></tr>
+          <tr><td>Karbohidrat</td><td>16 g</td></tr>
+          <tr><td>Lemak</td><td>4 g</td></tr>
+        </table>
+      </div>
+
+      <div class="card" data-category="camilan" data-name="smoothie bowl buah naga pisang">
+        <span class="badge">Camilan</span>
+        <h3>Smoothie Bowl Buah Naga</h3>
+        <p class="desc">Jus buah naga kental disajikan dengan topping pisang dan granola.</p>
+        <table>
+          <tr class="kalori-row"><td>Kalori</td><td>210 kcal</td></tr>
+          <tr><td>Protein</td><td>5 g</td></tr>
+          <tr><td>Karbohidrat</td><td>42 g</td></tr>
+          <tr><td>Lemak</td><td>3 g</td></tr>
+        </table>
+      </div>
+
+      <p id="noResult" class="no-result">Menu tidak ditemukan.</p>
+    </div>
+  </div>
+
+  <script>
+    let activeCategory = 'all';
+
+    // Fitur Pencarian Real-time
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+
+    // Fitur Filter Kategori
+    function filterCategory(category, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCategory = category;
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const searchValue = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const categoryMatch = (activeCategory === 'all' || card.dataset.category === activeCategory);
+        const searchMatch = card.dataset.name.toLowerCase().includes(searchValue);
+
+        if (categoryMatch && searchMatch) {
+          card.style.display = 'block';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      const noResultText = document.getElementById('noResult');
+      noResultText.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>
